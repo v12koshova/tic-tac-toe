@@ -1,0 +1,584 @@
+:root {
+    --field: white;
+    --borders: rgb(222, 221, 221);
+    --o_color: #f32853;
+    --o_hover: #f97a95;
+    --x_color: #f9d459;
+    --x_hover: #f8df8c;
+    --draw_color: grey;
+    --display_cat: none;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Nunito", sans-serif;
+    font-weight: 700;
+    background: url('../i/background.jpg');
+    background-size: contain;
+}
+
+.counter_o {
+    color: var(--o_color);
+}
+
+.counter_x {
+    color: var(--x_color);
+    position: relative;
+}
+
+.counter_x::after {
+    content: "";
+    position: absolute;
+    background: url('../i/peach.png');
+    background-size: contain;
+    background-position-y: top;
+    background-repeat: no-repeat;
+    width: 45px;
+    height: 45px;
+    top: -27px;
+    z-index: 0;
+    right: 26px;
+    display: var(--display_cat);
+}
+
+.counter_draw {
+    color: var(--draw_color);
+}
+
+.counter .x::before,
+.counter .x::after,
+.counter .o::before,
+.counter .draw::before {
+    top: -10px;
+    z-index: 1;
+}
+
+.draw {
+    position: relative;
+}
+
+.draw::before {
+    content: "";
+    position: absolute;
+    background-image: url("../i/scale.svg");
+    background-size: contain;
+    margin: auto;
+    height: 28px;
+    width: 28px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+#root {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    margin: auto;
+    max-width: 600px;
+}
+
+#field {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(50px, 1fr));
+    gap: 2px;
+    background: var(--borders);
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    border-radius: 20px;
+    overflow: hidden;
+    outline: 3px dotted var(--o_hover);
+    outline-offset: 4px;
+}
+
+button {
+    cursor: pointer;
+    font-family: inherit;
+    color: var(--draw_color);
+    font-weight: inherit;
+}
+
+.btn {
+    border-radius: 20px;
+    height: 30px;
+    background: transparent;
+    border: 2px solid rgb(230, 229, 229);
+    padding: 5px 15px;
+    background: #fff;
+}
+
+.cell {
+    height: 70px;
+    width: 70px;
+    background: var(--field);
+    text-align: center;
+    line-height: 45px;
+    border: none;
+}
+
+.cell.x,
+.cell.o,
+.cell:disabled {
+    cursor: not-allowed;
+}
+
+.x::before,
+.x::after {
+    animation: xTurn .1s ease 0s;
+}
+
+@keyframes xTurn {
+    0% {
+        width: 6px;
+        height: 40px;
+    }
+
+    50% {
+        width: 4px;
+        height: 38px;
+    }
+
+    100% {
+        width: 6px;
+        height: 40px;
+    }
+}
+
+
+
+.x,
+.field.turnX .cell:hover,
+.o,
+.field.turnO .cell:hover {
+    position: relative;
+    min-width: 30px;
+}
+
+.x::before,
+.x::after,
+.field.turnX .cell:not(.x):not(.o):not(:disabled):hover::before,
+.field.turnX .cell:not(.x):not(.o):not(:disabled):hover::after {
+    content: "";
+    position: absolute;
+    width: 6px;
+    height: 40px;
+    border-radius: 5px;
+    background: var(--x_color);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+
+.x::before,
+.field.turnX .cell:not(.x):not(.o):hover::before {
+    transform: rotate(45deg);
+}
+
+.x::after,
+.field.turnX .cell:not(.x):not(.o):hover::after {
+    transform: rotate(-45deg);
+}
+
+.field.turnX .cell:not(.x):not(.o):not(:disabled):hover::before,
+.field.turnX .cell:not(.x):not(.o):not(:disabled):hover::after {
+    background: var(--x_hover);
+}
+
+
+.o::before,
+.field.turnO .cell:not(.x):not(.o):not(:disabled):hover::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    height: 20px;
+    width: 20px;
+    border: 6px solid var(--o_color);
+    border-radius: 50%;
+    background: none;
+}
+
+.field.turnO .cell:not(.x):not(.o):not(:disabled):hover::before {
+    border-color: var(--o_hover);
+}
+
+.o::before {
+    animation: oTurn .1s ease 0s;
+}
+
+@keyframes oTurn {
+    0% {
+        height: 20px;
+        width: 20px;
+    }
+
+    50% {
+        height: 18px;
+        width: 18px;
+    }
+
+    100% {
+        height: 20px;
+        width: 20px;
+    }
+}
+
+.o.win::before {
+    animation: winOAnimation 0.7s ease-in-out 0s 2;
+}
+
+.x.win::before,
+.x.win::after {
+    animation: winXAnimation 0.7s ease-in-out 0s 2;
+}
+
+@keyframes winOAnimation {
+    0% {
+        height: 20px;
+        width: 20px;
+    }
+
+    50% {
+        height: 23px;
+        width: 23px;
+    }
+
+    100% {
+        height: 20px;
+        width: 20px;
+    }
+}
+
+@keyframes winXAnimation {
+    0% {
+        width: 6px;
+        height: 40px;
+    }
+
+    50% {
+        width: 7px;
+        height: 43px;
+    }
+
+    100% {
+        width: 6px;
+        height: 40px;
+    }
+}
+
+.winCounters {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: end;
+    margin-top: 50px;
+    text-align: center;
+    gap: 20px;
+    max-width: 300px;
+    background: #fff;
+    border: 2px solid rgb(230, 229, 229);
+    border-radius: 20px;
+    padding: 40px 20px 5px 20px;
+    margin-bottom: 20px;
+}
+
+.resultButton {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+
+.turn {
+    display: flex;
+    height: 25px;
+    width: 62px;
+    justify-content: space-between;
+    border: 1px solid var(--borders);
+    border-radius: 20px;
+    align-items: center;
+    position: relative;
+    z-index: 0;
+    margin-top: 40px;
+    background: white;
+}
+
+.turn::after {
+    content: "";
+    position: absolute;
+    background-color: var(--o_color);
+    transition: all 0.2s ease 0s;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+}
+
+
+.turnO+.turn::after {
+    background-color: var(--o_color);
+
+}
+
+.turnX+.turn::after {
+    background-color: var(--x_color);
+    transform: translate(101%);
+}
+
+.turn-label-o {
+    position: relative;
+    width: 50%;
+}
+
+.turn-label-o::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    height: 10px;
+    width: 10px;
+    border: 3px solid var(--o_color);
+    border-radius: 50%;
+    background: none;
+}
+
+.turnO+.turn>.turn-label-o {
+    transition: border-color 0.2s ease 0s;
+    &::before {
+        border-color: white;
+        z-index: 3;
+    }
+}
+
+
+.turn-label-x {
+    position: relative;
+    width: 50%;
+    text-align: center;
+}
+
+.turn-label-x::before,
+.turn-label-x::after {
+    content: "";
+    position: absolute;
+    width: 3px;
+    height: 16px;
+    border-radius: 5px;
+    background: var(--x_color);
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+}
+
+.turn-label-x::before {
+    transform: rotate(45deg);
+}
+
+.turn-label-x::after {
+    transform: rotate(-45deg);
+}
+
+.turnX+.turn>.turn-label-x {
+    transition: all 0.2s ease 0s;
+
+    &::before {
+        background-color: white;
+        z-index: 3;
+    }
+
+    &::after {
+        background-color: white;
+        z-index: 3;
+    }
+}
+
+.modal-wrap {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.3);
+    background-size: contain;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    margin: auto;
+    display: none;
+    overflow: hidden;
+}
+
+.modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    margin: auto;
+    text-align: center;
+    background: white;
+    max-width: 400px;
+    width: 95%;
+    max-height: 300px;
+    padding: 50px 10px;
+    border: 4px solid var(--borders);
+    border-radius: 20px;
+    outline: 3px dotted var(--o_hover);
+    outline-offset: -3px;
+}
+
+
+.initial-modal-wrap {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.3);
+    background-size: contain;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    margin: auto;
+    overflow: hidden;
+    top: 0;
+}
+
+.modalText {
+    font-size: 30px;
+    margin: auto;
+    margin-top: 0;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    color: var(--draw_color);
+    column-gap: 10px;
+}
+
+.modalCongrats {
+    padding-left: 10px;
+}
+
+.rainbowBg {
+    background: linear-gradient(to left, red, orange, green, blue, indigo, violet);
+    background-clip: text;
+    color: transparent;
+    width: fit-content;
+    height: fit-content;
+}
+
+.x-color {
+    color: var(--x_color);
+}
+
+.o-color {
+    color: var(--o_color);
+}
+
+.btns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    &>btn {
+        width: 100%;
+    }
+}
+
+.btns>.btn {
+    width: 100%;
+    max-width: 200px;
+
+}
+
+.gif-hi {
+    display: none;
+}
+
+.gif {
+    position: absolute;
+    bottom: 0;
+    display: none;
+}
+
+.gif-think {
+    right: 0;
+    text-align: end;
+}
+
+.thinking-gif {
+    width: 50%;
+}
+
+.gif-result {
+    right: 10px;
+}
+
+.result-gif {
+    height: 100px;
+}
+
+@media (min-width: 370px) {
+    .cell {
+        height: 90px;
+        width: 90px;
+    }
+
+    .x::before,
+    .x::after,
+    .field.turnX .cell:not(.x):not(.o):not(:disabled):hover::before,
+    .field.turnX .cell:not(.x):not(.o):not(:disabled):hover::after {
+        width: 7px;
+        height: 45px;
+    }
+
+    .o::before,
+    .field.turnO .cell:not(.x):not(.o):not(:disabled):hover::before {
+        height: 23px;
+        width: 23px;
+    }
+
+    .counter_x::after {
+        width: 49px;
+        height: 49px;
+        top: -29px;
+    }
+
+    .turn {
+        height: 30px;
+        width: 62px;
+    }
+
+    .gif-result {
+        right: 20px;
+    }
+}
+
+@media (min-width: 1100px) {
+    .gif-hi {
+        display: block;
+        position: absolute;
+        bottom: 0;
+        transform: translate(300%, 100%);
+        transition: transform 0.3s;
+    }
+    .btn:hover {
+        color: rgb(83, 83, 83);
+        border-color: darkgrey;
+    }
+    .btn:focus {
+        outline: none;
+    }
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./i/icon.svg" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+    <script src="./js/congrats.js" defer></script>
+    <script src="./js/index.js" defer></script>
+    <title>Tic-Tac-Toe Game</title>
+</head>
+<body>
+    <div id="root">
+        <div class="winCounters">
+            <div class="counter counter_o">
+                <div class="o"></div>
+                <p><span class="winCounter_O">0</span> wins</p>
+            </div>
+            <div class="counter counter_draw">
+                <div class="draw"></div>
+                <p><span class="winCounter_Draw">0</span> draws</p>
+            </div>
+            <div class="counter counter_x">
+                <div class="x"></div>
+                <p><span class="winCounter_X">0</span> wins</p>
+            </div>
+        </div>
+        <div class="resultButton">
+            <button id="resetResults" class="btn resetResults">Reset win history</button>
+        </div>
+        <div id="field" class="field turnO">
+            <button class="cell" id="0"></button>
+            <button class="cell" id="1"></button>
+            <button class="cell" id="2"></button>
+            <button class="cell" id="3"></button>
+            <button class="cell" id="4"></button>
+            <button class="cell" id="5"></button>
+            <button class="cell" id="6"></button>
+            <button class="cell" id="7"></button>
+            <button class="cell" id="8"></button>
+        </div>
+
+        <div class="turn">
+            <div class="turn-label-o"></div>
+            <div class="turn-label-x"></div>
+        </div>
+
+        <div class="gif gif-think"><img class="thinking-gif" src="./i/thinking.gif" alt=""></div>
+
+    </div>
+    <div class="modal-wrap">
+        <dialog id="modal" class="modal">
+                <p class="rainbowBg modalText">Congratulation!!!!</p>
+                <button id="newGame" class="btn newGame">New game</button>
+                <div class="gif gif-result"><img class="result-gif" src="./i/happy0.gif" alt=""></div>
+        </dialog>
+    </div>
+    <div class="initial-modal-wrap">
+        <dialog id="initial-modal" class="modal">
+                <p class="modalText"><span class="o-color">Tic </span> Tac <span class="x-color"> Toe</span></p>
+                <div class="btns">
+                    <button id="computer" class="btn option-btn">Play with the computer</button>
+                    <button id="friend" class="btn option-btn">Play with a friend</button>
+                </div>
+        </dialog>
+        <div class="gif gif-hi"><img src="./i/hello.gif" alt=""></div>
+    </div>
+
+    <audio id="winnerAudio" src="./sounds/button.mp3"></audio>
+    <audio id="congratsSound" src="./sounds/congrats.mp3"></audio>
+</body>
+</html>
